@@ -50,6 +50,7 @@ public class Spawner : MonoBehaviour
 
     void spawner()
     {
+
         float checkSpawn;
 
         checkSpawn = Random.Range(0f, 4f);

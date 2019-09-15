@@ -7,7 +7,6 @@ public class BallBehaviour : MonoBehaviour
     public float speed;
     public GameObject player;
     public PlayerController playerSc;
-    public Rigidbody2D rb;
 
 
 
@@ -15,15 +14,13 @@ public class BallBehaviour : MonoBehaviour
     {
 
         player = GetComponent<GameObject>();
-        rb = GetComponent<Rigidbody2D>();
-
-        rb.AddForce(transform.up * speed);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        transform.Translate(transform.up * speed * Time.deltaTime, Space.World);
 
         if(transform.position.y < -3)
         {
@@ -36,82 +33,77 @@ public class BallBehaviour : MonoBehaviour
 
         ///////////////////// Y Axis ////////////////////
 
-        //if (other.gameObject.tag == "Ceiling")
-        //{
+        if (other.gameObject.tag == "Ceiling")
+        {
 
-        //    Vector3 rot = transform.rotation.eulerAngles;
-        //    rot = new Vector3(rot.x, rot.y, rot.z + 180);
+            Vector3 rot = transform.rotation.eulerAngles;
+            rot = new Vector3(rot.x, rot.y, rot.z + 180);
 
-        //    if (other.transform.position.y > transform.position.y)
-        //    {
-        //        transform.rotation = Quaternion.Euler(-rot);
-        //    }
+            if (other.transform.position.y > transform.position.y)
+            {
+                transform.rotation = Quaternion.Euler(-rot);
+            }
 
-        //    if (other.transform.position.y > transform.position.y)
-        //    {
-        //        transform.rotation = Quaternion.Euler(-rot);
-        //    }
+        }
 
-        //}
-
-        //if (other.gameObject.tag == "Wall")
-        //{
+        if (other.gameObject.tag == "Wall")
+        {
 
 
-        //    /////////////////// X Axis //////////////////////
+            ///////////////// X Axis //////////////////////
 
-        //    if (other.transform.position.x > transform.position.x)
-        //    {
-        //        transform.rotation = Quaternion.Inverse(transform.rotation);
-        //    }
+            if (other.transform.position.x > transform.position.x)
+            {
+                transform.rotation = Quaternion.Inverse(transform.rotation);
+            }
 
-        //    if (other.transform.position.x < transform.position.x)
-        //    {
-        //        transform.rotation = Quaternion.Inverse(transform.rotation);
-        //    }
-
-            
-        //}
-
-        //if (other.gameObject.tag == "Box")
-        //{
+            if (other.transform.position.x < transform.position.x + transform.localScale.x)
+            {
+                transform.rotation = Quaternion.Inverse(transform.rotation);
+            }
 
 
-        //    Vector3 rot = transform.rotation.eulerAngles;
-        //    rot = new Vector3(rot.x, rot.y, rot.z + 180);
+        }
 
-        //    /////////////////// Y Axis //////////////////////
+        if (other.gameObject.tag == "Box")
+        {
 
-        //    if (Mathf.Abs(other.transform.position.y - transform.position.y) > Mathf.Abs(other.transform.position.x - transform.position.x))
-        //    {
-        //        if (other.transform.position.y > transform.position.y)
-        //        {
-        //            transform.rotation = Quaternion.Euler(-rot);
-        //        }
 
-        //        if (other.transform.position.y < transform.position.y)
-        //        {
-        //            transform.rotation = Quaternion.Euler(-rot);
-        //        }
-        //    }
-        //    /////////////////// X Axis //////////////////////
+            Vector3 rot = transform.rotation.eulerAngles;
+            rot = new Vector3(rot.x, rot.y, rot.z + 180);
 
-        //    //if (Mathf.Abs(other.transform.position.y - transform.position.y) < Mathf.Abs(other.transform.position.x - transform.position.x))
-        //    //{
-        //        if (other.transform.position.x > transform.position.x)
-        //        {
-        //            transform.rotation = Quaternion.Inverse(transform.rotation);
-        //        }
+            ///////////////// Y Axis //////////////////////
 
-        //        if (other.transform.position.x < transform.position.x)
-        //        {
-        //            transform.rotation = Quaternion.Inverse(transform.rotation);
-        //        }
-        //    //}
+            if (Mathf.Abs(other.transform.position.y - transform.position.y) > Mathf.Abs(other.transform.position.x - transform.position.x))
+            {
+                if (other.transform.position.y > transform.position.y)
+                {
+                    transform.rotation = Quaternion.Euler(-rot);
+                }
 
-        //}
+                if (other.transform.position.y < transform.position.y - transform.localScale.y)
+                {
+                    transform.rotation = Quaternion.Euler(-rot);
+                }
+            }
+            ///////////////// X Axis //////////////////////
 
-        
+            if (Mathf.Abs(other.transform.position.y - transform.position.y) < Mathf.Abs(other.transform.position.x - transform.position.x))
+            {
+                if (other.transform.position.x > transform.position.x)
+                {
+                    transform.rotation = Quaternion.Inverse(transform.rotation);
+                }
+
+                if (other.transform.position.x < transform.position.x + transform.localScale.x)
+                {
+                    transform.rotation = Quaternion.Inverse(transform.rotation);
+                }
+            }
+
+        }
+
+
 
     }
 
