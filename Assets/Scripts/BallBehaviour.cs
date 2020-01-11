@@ -81,10 +81,6 @@ public class BallBehaviour : MonoBehaviour
                         //contacted = true;
                         Debug.Log("hit side:" + hitPos.normal);
                     }
-                    else
-                    {
-                        Debug.Log("how?");
-                    }
                 }
             }
 

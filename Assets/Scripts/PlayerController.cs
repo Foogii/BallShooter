@@ -12,15 +12,19 @@ public class PlayerController : MonoBehaviour
 
     public GameObject ballPrefab;
 
-    public BallBehaviour ballScript;
+    BallBehaviour ballScript;
 
+    GameObject gmObj;
+    GameManager gm;
 
     LineRenderer lineRenderer;
 
     void Start()
     {
+        numberOfBalls = 1;
+        gmObj = GameObject.Find("GameManager");
+        gm = (GameManager) gmObj.GetComponent<GameManager>();
         lineRenderer = GetComponent<LineRenderer>();
-
     }
 
     // Update is called once per frame
@@ -28,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
 
-        if (Spawner.roundEnd == false)
+        if (GameManager.roundEnd == false && gm.isGameOver == false)
         {
             currNumBall = numberOfBalls;
             Vector2 mouse_Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -37,14 +41,12 @@ public class PlayerController : MonoBehaviour
             if (mouse_Position.y > transform.position.y + 0.25)
                 transform.up = direction;
 
-
                 lineRenderer.SetPosition(0, mouse_Position);
                 lineRenderer.SetPosition(1, mouse_Position);
 
-
             if (Input.GetMouseButtonUp(0))
             {
-                Spawner.roundEnd = true;
+                GameManager.roundEnd = true;
 
                 lineRenderer.SetPosition(0, new Vector2(-20, -20));
                 lineRenderer.SetPosition(1, new Vector2(-20, -20));

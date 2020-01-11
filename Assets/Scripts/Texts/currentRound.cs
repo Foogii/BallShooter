@@ -12,6 +12,7 @@ public class currentRound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        round = 1;
         Round = GetComponent<Text>();
     }
 
