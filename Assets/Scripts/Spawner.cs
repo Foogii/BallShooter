@@ -16,6 +16,8 @@ public class Spawner : MonoBehaviour
     public Transform corner1;
     public Transform corner2;
 
+    public Transform parentedObject;
+
     void Start()
     {
         roundEnd = true;
@@ -52,12 +54,13 @@ public class Spawner : MonoBehaviour
     {
 
         float checkSpawn;
+        GameObject littleBox;
 
         checkSpawn = Random.Range(0f, 4f);
 
         if(checkSpawn <= 1)
         {
-            Instantiate(boxPrefab, transform.position, Quaternion.identity);
+            littleBox = Instantiate(boxPrefab, transform.position, Quaternion.identity);
         }
         else
         {

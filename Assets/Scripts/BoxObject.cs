@@ -36,6 +36,8 @@ public class BoxObject : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
             Destroy(gameObject);
         }
+
+
     }
 
     public void moveDown()
@@ -52,5 +54,6 @@ public class BoxObject : MonoBehaviour
             health--;
         }
     }
+
 
 }

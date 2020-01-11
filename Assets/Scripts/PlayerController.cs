@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 
     static public int numberOfBalls = 1;
+    public int currNumBall = numberOfBalls;
 
     private float fireRate = 0.1f;
 
@@ -26,11 +27,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        
 
         if (Spawner.roundEnd == false)
         {
-
+            currNumBall = numberOfBalls;
             Vector2 mouse_Position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 direction = new Vector2(mouse_Position.x - transform.position.x, mouse_Position.y - transform.position.y);
 
@@ -63,6 +63,12 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < numberOfBalls; i++)
         {
             Instantiate(ballPrefab, transform.up - new Vector3(0f, 3f, 0f), transform.rotation);
+            currNumBall--;
+
+            if(currNumBall < 0)
+            {
+                currNumBall = 0;
+            }
 
             yield return new WaitForSeconds(fireRate);
         }
