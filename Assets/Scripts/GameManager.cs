@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < ballIncrease.Length; i++)
                 if (ballIncrease[i].transform.position.y <= -1)
                 {
-                    Destroy(gameObject);
+                    //Destroy(gameObject);
                 }
         }
     }
