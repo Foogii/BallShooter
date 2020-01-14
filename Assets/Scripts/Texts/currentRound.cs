@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class currentRound : MonoBehaviour
 {
 
-    static public int round = 1;
+    static public int round;
     Text Round;
 
     // Start is called before the first frame update
     void Start()
     {
-        round = 1;
+        if(PlayerPrefs.GetInt("Round") <= 1)
+            round = 1;
         Round = GetComponent<Text>();
     }
 

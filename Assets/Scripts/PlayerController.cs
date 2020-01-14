@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        numberOfBalls = 1;
+        if(PlayerPrefs.GetInt("Round") <= 1)
+            numberOfBalls = 1;
         gmObj = GameObject.Find("GameManager");
         gm = (GameManager) gmObj.GetComponent<GameManager>();
         lineRenderer = GetComponent<LineRenderer>();

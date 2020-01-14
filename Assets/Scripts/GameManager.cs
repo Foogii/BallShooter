@@ -7,6 +7,11 @@ public class GameManager : MonoBehaviour
 {
     static public bool roundEnd = false;
     public bool isGameOver = false;
+    public int numOfBoxes;
+    public int numOfBallIncrease;
+
+    public GameObject boxPrefab;
+    public GameObject ballIncreasePrefab;
 
     public Transform corner1;
     public Transform corner2;
@@ -21,9 +26,35 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        roundEnd = true;
-        roundDone();
         roundEnd = false;
+
+        if (PlayerPrefs.GetInt("Round") > 1)
+        {
+            currentRound.round = PlayerPrefs.GetInt("Round");
+            numOfBoxes = PlayerPrefs.GetInt("numOfBoxes");
+            numOfBallIncrease = PlayerPrefs.GetInt("numOfBallIncrease");
+            PlayerController.numberOfBalls = PlayerPrefs.GetInt("NumOfBalls");
+
+            for (int i = 0; i < numOfBoxes; i++)
+            {
+                Vector2 boxPosition = new Vector2(PlayerPrefs.GetFloat("boxX" + i.ToString()), PlayerPrefs.GetFloat("boxY" + i.ToString()));
+                GameObject box = (GameObject)Instantiate(boxPrefab, boxPosition, Quaternion.identity);
+                box.GetComponent<BoxObject>().health = PlayerPrefs.GetInt("boxHP" + i.ToString());
+            }
+
+            for (int i = 0; i < numOfBallIncrease; i++)
+            {
+                Vector2 ballIncreasePos = new Vector2(PlayerPrefs.GetFloat("ballX" + i.ToString()), PlayerPrefs.GetFloat("ballY" + i.ToString()));
+                GameObject ballIncrease = (GameObject)Instantiate(ballIncreasePrefab, ballIncreasePos, Quaternion.identity);
+            }
+
+        }
+        else
+        {
+            roundEnd = true;
+            roundDone();
+            roundEnd = false;
+        }
     }
 
     // Update is called once per frame
@@ -39,8 +70,9 @@ public class GameManager : MonoBehaviour
 
                 if (BoxObject.spawnersChecked == 7)
                 {
-                    roundEnd = false;
                     currentRound.round++;
+                    PlayerPrefs.SetInt("Round", currentRound.round);
+                    roundEnd = false;
                     BoxObject.spawnersChecked = 0;
                 }
             }
@@ -53,6 +85,19 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
             gameOverPanel.SetActive(true);
+
+            PlayerPrefs.DeleteKey("NumOfBalls");
+
+            for (int i = 0; i > numOfBoxes; i++)
+            {
+                PlayerPrefs.DeleteKey("boxX" + i.ToString());
+                PlayerPrefs.DeleteKey("boxY" + i.ToString());
+            }
+
+            PlayerPrefs.DeleteKey("Round");
+            PlayerPrefs.DeleteKey("numOfBoxes");
+
+            currentRound.round = PlayerPrefs.GetInt("Round");
         }
     }
 
@@ -68,22 +113,36 @@ public class GameManager : MonoBehaviour
             Collider2D[] ballIncrease = Physics2D.OverlapAreaAll(corner1.position, corner2.position, whatIsBallIncrease);
 
             for (int i = 0; i < boxes.Length; i++)
+            {
                 boxes[i].GetComponent<BoxObject>().moveDown();
 
+                PlayerPrefs.SetFloat("boxX" + i.ToString(), boxes[i].transform.position.x);
+                PlayerPrefs.SetFloat("boxY" + i.ToString(), boxes[i].transform.position.y);
+                PlayerPrefs.SetInt("boxHP" + i.ToString(), boxes[i].gameObject.GetComponent<BoxObject>().health);
+            }
+
             for (int i = 0; i < ballIncrease.Length; i++)
+            {
                 ballIncrease[i].GetComponent<Ball_Increase>().moveDown();
+                PlayerPrefs.SetFloat("ballX" + i.ToString(), ballIncrease[i].transform.position.x);
+                PlayerPrefs.SetFloat("ballY" + i.ToString(), ballIncrease[i].transform.position.y);
+            }
 
             for (int i = 0; i < boxes.Length; i++)
-                if (boxes[i].transform.position.y <= -1)
+                if (boxes[i].transform.position.y <= -2.3)
                 {
                     gameOver();
                 }
 
             for (int i = 0; i < ballIncrease.Length; i++)
-                if (ballIncrease[i].transform.position.y <= -1)
+                if (ballIncrease[i].transform.position.y <= -2.3)
                 {
-                    //Destroy(gameObject);
+                    Destroy(ballIncrease[i].gameObject);
                 }
+
+            PlayerPrefs.SetInt("numOfBoxes", boxes.Length);
+            PlayerPrefs.SetInt("numOfBallIncrease", ballIncrease.Length);
+            PlayerPrefs.SetInt("NumOfBalls", PlayerController.numberOfBalls);
         }
     }
 

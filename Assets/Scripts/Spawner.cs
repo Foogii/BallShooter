@@ -12,13 +12,6 @@ public class Spawner : MonoBehaviour
         BoxObject.spawnersChecked = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     public void spawner()
     {
         float checkSpawn;
