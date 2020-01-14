@@ -6,6 +6,8 @@ public class Spawner : MonoBehaviour
 {
     public GameObject boxPrefab;
     public GameObject ballIncreasePrefab;
+    public GameObject coinPrefab;
+    public GameObject ECoinPrefab;
 
     void Start()
     {
@@ -31,8 +33,25 @@ public class Spawner : MonoBehaviour
             {
                 Instantiate(ballIncreasePrefab, transform.position, Quaternion.identity);
             }
-        }
+            else
+            {
+                checkSpawn = Random.Range(0f, 15f);
 
+                if (checkSpawn <= 1)
+                {
+                    Instantiate(coinPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    checkSpawn = Random.Range(0f, 25f);
+
+                    if (checkSpawn <= 1)
+                    {
+                        Instantiate(ECoinPrefab, transform.position, Quaternion.identity);
+                    }
+                }
+            }
+        }
         BoxObject.spawnersChecked++;
     }
 

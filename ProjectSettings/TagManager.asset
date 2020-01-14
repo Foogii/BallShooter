@@ -9,6 +9,8 @@ TagManager:
   - Ceiling
   - Box
   - ballIncrease
+  - coin
+  - eCoin
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - Balls
   - Spawners
   - ballIncrease
-  - 
-  - 
+  - coin
+  - eCoin
   - 
   - 
   - 

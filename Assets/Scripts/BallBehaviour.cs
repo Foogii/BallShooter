@@ -11,8 +11,13 @@ public class BallBehaviour : MonoBehaviour
 
     public float timeBeforeSpeedUp;
 
+    GameObject gmObj;
+    GameManager gm;
+
     void Start()
     {
+        gmObj = GameObject.Find("GameManager");
+        gm = (GameManager)gmObj.GetComponent<GameManager>();
         player = GetComponent<GameObject>();
     }
 
@@ -108,6 +113,18 @@ public class BallBehaviour : MonoBehaviour
         if (other.gameObject.tag == "ballIncrease")
         {
             PlayerController.numberOfBalls++;
+            Destroy(other.gameObject);
+        }
+
+        if(other.gameObject.tag == "coin")
+        {
+            gm.coinsNum++;
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "eCoin")
+        {
+            gm.eCoinsNum++;
             Destroy(other.gameObject);
         }
     }
