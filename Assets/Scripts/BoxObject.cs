@@ -14,6 +14,9 @@ public class BoxObject : MonoBehaviour
     GameObject gmObj;
     GameManager gm;
 
+    ShopManager shopSc;
+    GameObject shopObj;
+
     private void Awake()
     {
         health = Random.Range((int)currentRound.round, (int)currentRound.round * 2);
@@ -24,6 +27,9 @@ public class BoxObject : MonoBehaviour
     {
         gmObj = GameObject.Find("GameManager");
         gm = (GameManager)gmObj.GetComponent<GameManager>();
+
+        shopObj = GameObject.Find("ShopManager");
+        shopSc = (ShopManager)shopObj.GetComponent<ShopManager>();
     }
 
     // Update is called once per frame
@@ -34,9 +40,7 @@ public class BoxObject : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
             Destroy(gameObject);
 
-            gm.score += maxHealth;
-
-            Debug.Log(gm.score);
+            gm.score += maxHealth * (int)shopSc.scoreMultiplier; //This is incorrect, fix this SOON
         }
     }
 
@@ -49,7 +53,7 @@ public class BoxObject : MonoBehaviour
     {
         if(other.gameObject.tag == "ball")
         {
-            health--;
+            health -= 1 * shopSc.ballDamage;
         }
     }
 

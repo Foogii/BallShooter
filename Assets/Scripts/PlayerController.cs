@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject ballPrefab;
 
+    public GameObject shopMenu;
+
     BallBehaviour ballScript;
 
     GameObject gmObj;
@@ -23,8 +25,10 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerPrefs.GetInt("Round") <= 1)
             numberOfBalls = 1;
+
         gmObj = GameObject.Find("GameManager");
         gm = (GameManager) gmObj.GetComponent<GameManager>();
+
         lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -45,7 +49,7 @@ public class PlayerController : MonoBehaviour
                 lineRenderer.SetPosition(0, mouse_Position);
                 lineRenderer.SetPosition(1, mouse_Position);
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy)
             {
                 GameManager.roundEnd = true;
 
@@ -58,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-
 
     public IEnumerator burstFire()
     {

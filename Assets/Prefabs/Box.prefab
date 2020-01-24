@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8026795900781558085}
   - component: {fileID: 2292034593275128259}
   - component: {fileID: 5863421285743756510}
-  - component: {fileID: 2510639456082073392}
+  - component: {fileID: 50869692858344608}
   m_Layer: 8
   m_Name: Box
   m_TagString: Box
@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1897af442e52fd4cafb31742d44f4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerScript: {fileID: 0}
   health: 0
+  maxHealth: 0
   deathSound: {fileID: 8300000, guid: 849f03ae81d6f804db996a0abe3d0e89, type: 3}
 --- !u!61 &2292034593275128259
 BoxCollider2D:
@@ -221,7 +221,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!50 &2510639456082073392
+--- !u!50 &50869692858344608
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 7486071110845817821}
   - component: {fileID: 3895197981209561178}
   m_Layer: 8
-  m_Name: GameObject
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,7 +327,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 200
+  m_FontSize: 150
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}

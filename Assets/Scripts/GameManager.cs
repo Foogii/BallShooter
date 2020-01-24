@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int numOfCoins;
     public int numOfECoins;
 
+    public int clearUses;
+
     public int coinsNum;
     public int eCoinsNum = 0;
 
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     public Transform corner1;
     public Transform corner2;
+    public Transform corner3;
 
     public LayerMask whatIsBox;
     public LayerMask whatIsBallIncrease;
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
 
             coinsNum = PlayerPrefs.GetInt("Coins");
             eCoinsNum = PlayerPrefs.GetInt("eCoins");
+            clearUses = PlayerPrefs.GetInt("Clears");
 
             for (int i = 0; i < numOfBoxes; i++) //Sets the position for each box that was saved
             {
@@ -80,6 +84,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            clearUses = 3;
             roundEnd = true;
             roundDone();
             roundEnd = false;
@@ -214,6 +219,22 @@ public class GameManager : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadScene("Main Menu");
+    }
+
+    public void destroyBottomWave()
+    {
+        Debug.Log(clearUses);
+        if (clearUses > 0)
+        {
+            Collider2D[] boxes = Physics2D.OverlapAreaAll(corner3.position, corner2.position, whatIsBox);
+            for (int i = 0; i < boxes.Length; i++)
+            {
+                Destroy(boxes[i].gameObject);
+                Debug.Log(boxes[i]);
+            }
+            clearUses--;
+            PlayerPrefs.SetInt("Clears", clearUses);
+        }
     }
 
 }
