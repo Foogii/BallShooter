@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public LayerMask whatIsECoin;
 
     public GameObject gameOverPanel;
+    public GameObject DangerZone;
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +106,8 @@ public class GameManager : MonoBehaviour
             highscore = score;
 
         PlayerPrefs.SetInt("HighScore", highscore);
+
+        toggleDangerZone();
 
         if (roundEnd == true && isGameOver == false)
         {
@@ -221,12 +224,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
-    public void destroyBottomWave()
+    public void destroyBottomWave() //The Danger Zone
     {
         Debug.Log(clearUses);
         if (clearUses > 0)
         {
             Collider2D[] boxes = Physics2D.OverlapAreaAll(corner3.position, corner2.position, whatIsBox);
+
             for (int i = 0; i < boxes.Length; i++)
             {
                 Destroy(boxes[i].gameObject);
@@ -234,6 +238,19 @@ public class GameManager : MonoBehaviour
             }
             clearUses--;
             PlayerPrefs.SetInt("Clears", clearUses);
+        }
+    }
+
+    public void toggleDangerZone() //Toggles the DangerZones animation
+    {
+        Collider2D[] boxes = Physics2D.OverlapAreaAll(corner3.position, corner2.position, whatIsBox);
+        if (boxes.Length > 0)
+        {
+            DangerZone.SetActive(true);
+        }
+        else
+        {
+            DangerZone.SetActive(false);
         }
     }
 

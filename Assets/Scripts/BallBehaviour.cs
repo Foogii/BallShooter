@@ -72,18 +72,18 @@ public class BallBehaviour : MonoBehaviour
 
                 if (!contacted)
                 {
-                    if (Mathf.Abs(hitPos.normal.y) > 0 && Mathf.Abs(hitPos.normal.x) > 0)
-                    {
-                        // greater than 45, less than 135,
-                        if(Mathf.Abs(transform.rotation.z) >= 45 && Mathf.Abs(transform.rotation.z) <= 135)
-                            transform.rotation = Quaternion.Inverse(transform.rotation);
-                        else
-                            transform.rotation = Quaternion.Euler(-rot);
+                    //if (Mathf.Abs(hitPos.normal.y) > 0 && Mathf.Abs(hitPos.normal.x) > 0)
+                    //{
+                    //    // greater than 45, less than 135,
+                    //    if(Mathf.Abs(transform.rotation.z) >= 45 && Mathf.Abs(transform.rotation.z) <= 135)
+                    //        transform.rotation = Quaternion.Inverse(transform.rotation);
+                    //    else
+                    //        transform.rotation = Quaternion.Euler(-rot);
 
-                        contacted = true;
-                        //Debug.Log("hit corner:" + hitPos.normal);
-                    }
-                    else if (Mathf.Abs(hitPos.normal.y) > Mathf.Abs(hitPos.normal.x))
+                    //    contacted = true;
+                    //    //Debug.Log("hit corner:" + hitPos.normal);
+                    //}
+                    if (Mathf.Abs(hitPos.normal.y) > Mathf.Abs(hitPos.normal.x))
                     {
                         transform.rotation = Quaternion.Euler(-rot);
                         contacted = true;

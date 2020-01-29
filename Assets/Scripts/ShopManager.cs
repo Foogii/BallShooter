@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     public GameObject menuShop;
+    public GameObject blocksPrefab;
+
+    public Transform pos1;
+    public Transform pos2;
+    public LayerMask whatIsBox;
 
     public float ballDropRate = 1f;
     public float coinDropRate = 1f;
@@ -71,6 +76,27 @@ public class ShopManager : MonoBehaviour
         background = button.image.sprite.name;
         PlayerPrefs.SetString("Background", background);
         Debug.Log(PlayerPrefs.GetString("Background"));
+    }
+
+    public void setBouncyBlocks()
+    {
+        Collider2D[] boxes = Physics2D.OverlapAreaAll(pos1.position, pos2.position, whatIsBox);
+
+        if (blocksPrefab.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic)
+        {
+            blocksPrefab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+            for (int i = 0; i < boxes.Length; i++)
+                boxes[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        }
+        else
+        {
+            blocksPrefab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+
+            for (int i = 0; i < boxes.Length; i++)
+                boxes[i].GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+           
     }
 
     public void OpenMenuShop()
