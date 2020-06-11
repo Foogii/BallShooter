@@ -6,9 +6,16 @@ using UnityEngine.SceneManagement;
 public class MenuSc : MonoBehaviour
 {
     
-    public void changeScene(string name)
+    public void changeScene()
     {
-        SceneManager.LoadScene(name, LoadSceneMode.Single);
+        SceneManager.LoadScene("Main Game");
+    }
+
+    public void startNewGame()
+    {
+        currentRound.round = 0;
+        PlayerPrefs.DeleteKey("Round");
+        SceneManager.LoadScene("Main Game");
     }
 
 

@@ -11,6 +11,14 @@ TagManager:
   - ballIncrease
   - coin
   - eCoin
+  - BallDropRate
+  - CoinDropRate
+  - eCoinDropRate
+  - BallDamageMultiplier
+  - ScoreMultiplier
+  - BouncyBlocks
+  - sound
+  - skins
   layers:
   - Default
   - TransparentFX

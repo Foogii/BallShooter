@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BoxObject : MonoBehaviour
 {
@@ -19,7 +20,10 @@ public class BoxObject : MonoBehaviour
 
     private void Awake()
     {
-        health = Random.Range((int)currentRound.round, (int)currentRound.round * 2);
+        double tempHp = ((2 * currentRound.round) + Math.Pow(1.03, currentRound.round)) / 1.5; ;
+
+        //health = Random.Range((int)currentRound.round, (int)currentRound.round * 2);
+        health = (int)tempHp;
         maxHealth = health;
     }
 
@@ -40,13 +44,13 @@ public class BoxObject : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
             Destroy(gameObject);
 
-            gm.score += maxHealth * (int)shopSc.scoreMultiplier; //This is incorrect, fix this SOON
+            gm.score += maxHealth * (int)shopSc.scoreMultiplier;
         }
     }
 
     public void moveDown()
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y - 0.78f);
+        transform.position = new Vector2(transform.position.x, transform.position.y - 4.57f);
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -54,6 +58,8 @@ public class BoxObject : MonoBehaviour
         if(other.gameObject.tag == "ball")
         {
             health -= 1 * shopSc.ballDamage;
+            var val = 1 * shopSc.ballDamage; //Determines how much the score will be increased by
+            gm.score += val * (int)shopSc.scoreMultiplier; //Increase the score
         }
     }
 

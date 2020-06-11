@@ -18,6 +18,6 @@ public class CurrentBallTotal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ballTotal.text = "x" + player.currNumBall;
+        ballTotal.text = "x" + PlayerController.currNumBall;
     }
 }

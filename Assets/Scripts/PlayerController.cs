@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 
     static public int numberOfBalls = 1;
-    public int currNumBall = numberOfBalls;
+    public static int currNumBall = numberOfBalls;
 
     private float fireRate = 0.1f;
 
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy)
             {
+                Time.timeScale = 1;
                 GameManager.roundEnd = true;
 
                 lineRenderer.SetPosition(0, new Vector2(-20, -20));
@@ -59,16 +60,18 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(burstFire());
 
             }
-
         }
     }
 
     public IEnumerator burstFire()
     {
+        Vector3 direction = transform.up * 100;
+        direction.Normalize();
 
         for(int i = 0; i < numberOfBalls; i++)
         {
-            Instantiate(ballPrefab, transform.up - new Vector3(0f, 3f, 0f), transform.rotation);
+            var ball = Instantiate(ballPrefab, transform.up - new Vector3(0f, 18f, 0f), Quaternion.identity);
+            ball.GetComponent<Rigidbody2D>().AddForce(direction);
             currNumBall--;
 
             if(currNumBall < 0)

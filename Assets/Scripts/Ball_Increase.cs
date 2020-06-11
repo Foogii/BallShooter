@@ -13,7 +13,7 @@ public class Ball_Increase : MonoBehaviour
 
     public void moveDown()
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y - 0.78f);
+        transform.position = new Vector2(transform.position.x, transform.position.y - 4.57f);
     }
 
 }

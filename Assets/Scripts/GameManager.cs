@@ -39,6 +39,20 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject DangerZone;
 
+    float timeUntilSpeedup = 7f;
+    float timeUntilDownwardForce = 12f;
+
+    bool firstRound = true;
+
+    private void Awake()
+    {
+        if (!PlayerPrefs.HasKey("Round"))
+        {
+            currentRound.round = 1;
+            PlayerPrefs.SetInt("Round", currentRound.round);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,14 +61,14 @@ public class GameManager : MonoBehaviour
         highscore = PlayerPrefs.GetInt("HighScore");
         if (PlayerPrefs.GetInt("Round") > 1)
         {
-            currentRound.round = PlayerPrefs.GetInt("Round");
             numOfBoxes = PlayerPrefs.GetInt("numOfBoxes");
             numOfBallIncrease = PlayerPrefs.GetInt("numOfBallIncrease");
             PlayerController.numberOfBalls = PlayerPrefs.GetInt("NumOfBalls");
             score = PlayerPrefs.GetInt("Score");
-
             coinsNum = PlayerPrefs.GetInt("Coins");
-            eCoinsNum = PlayerPrefs.GetInt("eCoins");
+
+            numOfCoins = PlayerPrefs.GetInt("numOfCoins");
+            numOfECoins = PlayerPrefs.GetInt("numOfECoins");
             clearUses = PlayerPrefs.GetInt("Clears");
 
             for (int i = 0; i < numOfBoxes; i++) //Sets the position for each box that was saved
@@ -85,7 +99,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            firstRound = true;
             clearUses = 3;
+            PlayerPrefs.SetInt("Clears", clearUses);
             roundEnd = true;
             roundDone();
             roundEnd = false;
@@ -108,20 +124,51 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("HighScore", highscore);
 
         toggleDangerZone();
-
+        
         if (roundEnd == true && isGameOver == false)
         {
-            if (balls.Length == 0)
+            if (balls.Length == 0 && PlayerController.currNumBall <= 1)
             {
+                timeUntilSpeedup = 7f;
+                timeUntilDownwardForce = 12f;
                 roundDone();
 
                 if (BoxObject.spawnersChecked == 7)
                 {
-                    currentRound.round++;
+                    if(!firstRound)
+                        currentRound.round++;
                     PlayerPrefs.SetInt("Round", currentRound.round);
                     roundEnd = false;
                     BoxObject.spawnersChecked = 0;
+                    firstRound = false;
                 }
+            }
+        }
+
+        if(balls.Length > 0)
+        {
+            if (timeUntilSpeedup <= 0)
+            {
+                Time.timeScale = 2;
+                timeUntilSpeedup = 7f;
+            }
+            else
+            {
+                timeUntilSpeedup -= Time.deltaTime;
+            }
+
+            if(timeUntilDownwardForce <=0)
+            {
+                for(int i = 0; i < balls.Length; i++)
+                {
+                    balls[i].transform.rotation = new Quaternion(balls[i].transform.rotation.x, balls[i].transform.rotation.y, balls[i].transform.rotation.z + 1, transform.rotation.w);
+                    balls[i].GetComponent<Rigidbody2D>().AddForce(Vector2.down * 50);
+                }
+                timeUntilDownwardForce = 12f;
+            }
+            else
+            {
+                timeUntilDownwardForce -= Time.deltaTime;
             }
         }
     }
@@ -145,12 +192,20 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("numOfBoxes");
             PlayerPrefs.DeleteKey("Coins");
             PlayerPrefs.DeleteKey("Score");
+            PlayerPrefs.DeleteKey("Clears");
 
-            currentRound.round = PlayerPrefs.GetInt("Round");
+            PlayerPrefs.DeleteKey("BallDropRate");
+            PlayerPrefs.DeleteKey("CoinDropRate");
+            PlayerPrefs.DeleteKey("eCoinDropRate");
+            PlayerPrefs.DeleteKey("BallDamage");
+            PlayerPrefs.DeleteKey("ScoreMultiplier");
+            PlayerPrefs.DeleteKey("bouncyIsPurchased");
+
+
         }
     }
 
-    public void roundDone()
+    public void roundDone() //Notes that the round has ended, and saves the locations of every block, ball, and coin
     {
         if (roundEnd == true && isGameOver == false)
         {
@@ -163,7 +218,7 @@ public class GameManager : MonoBehaviour
             Collider2D[] coins = Physics2D.OverlapAreaAll(corner1.position, corner2.position, whatIsCoin);
             Collider2D[] eCoins = Physics2D.OverlapAreaAll(corner1.position, corner2.position, whatIsECoin);
 
-            for (int i = 0; i < boxes.Length; i++)
+            for (int i = 0; i < boxes.Length; i++) //Saves the blocks
             {
                 boxes[i].GetComponent<BoxObject>().moveDown();
 
@@ -172,21 +227,21 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("boxHP" + i.ToString(), boxes[i].gameObject.GetComponent<BoxObject>().health);
             }
 
-            for (int i = 0; i < ballIncrease.Length; i++)
+            for (int i = 0; i < ballIncrease.Length; i++) //Saves the ball increasers 
             {
                 ballIncrease[i].GetComponent<Ball_Increase>().moveDown();
                 PlayerPrefs.SetFloat("ballX" + i.ToString(), ballIncrease[i].transform.position.x);
                 PlayerPrefs.SetFloat("ballY" + i.ToString(), ballIncrease[i].transform.position.y);
             }
 
-            for (int i = 0; i < coins.Length; i++)
+            for (int i = 0; i < coins.Length; i++) //Saves the coins
             {
                 coins[i].GetComponent<Ball_Increase>().moveDown();
                 PlayerPrefs.SetFloat("coinX" + i.ToString(), coins[i].transform.position.x);
                 PlayerPrefs.SetFloat("coinY" + i.ToString(), coins[i].transform.position.y);
             }
 
-            for (int i = 0; i < eCoins.Length; i++)
+            for (int i = 0; i < eCoins.Length; i++) //Saves the E-Coins
             {
                 eCoins[i].GetComponent<Ball_Increase>().moveDown();
                 PlayerPrefs.SetFloat("eCoinX" + i.ToString(), eCoins[i].transform.position.x);
@@ -195,15 +250,27 @@ public class GameManager : MonoBehaviour
 
 
             for (int i = 0; i < boxes.Length; i++)
-                if (boxes[i].transform.position.y <= -2.3)
+                if (boxes[i].transform.position.y <= -15)
                 {
                     gameOver();
                 }
 
             for (int i = 0; i < ballIncrease.Length; i++)
-                if (ballIncrease[i].transform.position.y <= -2.3)
+                if (ballIncrease[i].transform.position.y <= -19)
                 {
                     Destroy(ballIncrease[i].gameObject);
+                }
+
+            for (int i = 0; i < coins.Length; i++)
+                if (coins[i].transform.position.y <= -19)
+                {
+                    Destroy(coins[i].gameObject);
+                }
+
+            for (int i = 0; i < eCoins.Length; i++)
+                if (eCoins[i].transform.position.y <= -19)
+                {
+                    Destroy(eCoins[i].gameObject);
                 }
 
             PlayerPrefs.SetInt("numOfCoins", coins.Length);
@@ -217,20 +284,22 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("Main Game");
+        PlayerPrefs.DeleteKey("Round");
     }
 
     public void MainMenu()
     {
         SceneManager.LoadScene("Main Menu");
+        if(isGameOver)
+            PlayerPrefs.DeleteKey("Round");
     }
 
     public void destroyBottomWave() //The Danger Zone
     {
-        Debug.Log(clearUses);
-        if (clearUses > 0)
-        {
-            Collider2D[] boxes = Physics2D.OverlapAreaAll(corner3.position, corner2.position, whatIsBox);
+        Collider2D[] boxes = Physics2D.OverlapAreaAll(corner3.position, corner2.position, whatIsBox);
 
+        if (clearUses > 0 && boxes.Length > 0)
+        {
             for (int i = 0; i < boxes.Length; i++)
             {
                 Destroy(boxes[i].gameObject);
