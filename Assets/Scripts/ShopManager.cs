@@ -23,13 +23,9 @@ public class ShopManager : MonoBehaviour
     GameObject gameM;
     private bool bouncyIsPurchased = false;
 
-    private int eCoins;
-
     // Start is called before the first frame update
     void Start()
     {
-        eCoins = PlayerPrefs.GetInt("eCoins");
-
         gameM = GameObject.Find("GameManager");
         gm = (GameManager)gameM.GetComponent<GameManager>();
 
@@ -264,49 +260,4 @@ public class ShopManager : MonoBehaviour
         menuShop.SetActive(false);
     }
 
-    ///////////////////// Main Menu Shop Section //////////////////////////////////////////
-
-    public void unlockSkin(Button button)
-    {
-        Debug.Log(eCoins);
-        if(eCoins >= 25)
-        {
-            button.gameObject.SetActive(false);
-            eCoins -= 25;
-            PlayerPrefs.SetInt("eCoins", eCoins);
-        }
-    }
-
-
-    public void setBackground(Button button)
-    {
-        string background;
-        background = button.image.sprite.name;
-        PlayerPrefs.SetString("Background", background);
-        Debug.Log(PlayerPrefs.GetString("Background"));
-    }
-
-    public void setBlock(Button button)
-    {
-        string block;
-        block = button.image.sprite.name;
-        PlayerPrefs.SetString("Block", block);
-        Debug.Log(PlayerPrefs.GetString("Block"));
-    }
-
-    public void setBall(Button button)
-    {
-        string ball;
-        ball = button.image.sprite.name;
-        PlayerPrefs.SetString("Ball", ball);
-        Debug.Log(PlayerPrefs.GetString("Ball"));
-    }
-
-    public void setCharacter(Button button)
-    {
-        string character;
-        character = button.image.sprite.name;
-        PlayerPrefs.SetString("Character", character);
-        Debug.Log(PlayerPrefs.GetString("Character"));
-    }
 }
