@@ -20,6 +20,11 @@ public class BoxObject : MonoBehaviour
 
     private void Awake()
     {
+        float height = Screen.height / (3090/23);
+        float width = height;
+
+        gameObject.transform.localScale = new Vector2(width, height);
+
         double tempHp = ((2 * currentRound.round) + Math.Pow(1.03, currentRound.round)) / 1.5; ;
 
         //health = Random.Range((int)currentRound.round, (int)currentRound.round * 2);

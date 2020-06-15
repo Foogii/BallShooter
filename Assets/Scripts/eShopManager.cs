@@ -11,6 +11,7 @@ public class eShopManager : MonoBehaviour
     public GameObject[] Locks;
 
     public Image shopImage;
+    Button lockedButton;
 
     // Start is called before the first frame update
     void Start()
@@ -24,16 +25,16 @@ public class eShopManager : MonoBehaviour
         
     }
 
-    public void unlockSkin(Button button)
+    public void unlockSkin()
     {
         goldCoins = PlayerPrefs.GetInt("eCoins");
         Debug.Log(goldCoins);
         if (goldCoins >= 25)
         {
-            button.gameObject.SetActive(false);
+            lockedButton.gameObject.SetActive(false);
             goldCoins -= 25;
             PlayerPrefs.SetInt("eCoins", goldCoins);
-            PlayerPrefs.SetString(button.name, "unlocked");
+            PlayerPrefs.SetString(lockedButton.name, "unlocked");
         }
     }
 
@@ -53,9 +54,14 @@ public class eShopManager : MonoBehaviour
 
     }
 
-    public void getSkinImage(Button image, Button imageLock)
+    public void getSkinImage(Button image)
     {
-        shopImage.sprite = image.image.sprite;
+        shopImage.sprite = image.image.sprite;     
+    }
+
+    public void getAssociatedLock(Button imageLock)
+    {
+        lockedButton = imageLock;
     }
 
     public void setBackground(Button button)
