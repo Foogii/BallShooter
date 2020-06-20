@@ -12,8 +12,10 @@ public class currentRound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(PlayerPrefs.GetInt("Round") <= 1)
-            round = 1;
+        if (PlayerPrefs.GetInt("Round") <= 1)
+            round = 0;
+        else
+            round = PlayerPrefs.GetInt("Round");
         Round = GetComponent<Text>();
     }
 

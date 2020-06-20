@@ -74,12 +74,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void increaseBallDropRate() //Can be increased 4 times
     {
         if (ballDropRate < 2f) //Costs: 8, 16, 24, 32

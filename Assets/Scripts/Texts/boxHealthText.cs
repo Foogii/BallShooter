@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class boxHealthText : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class boxHealthText : MonoBehaviour
         renderer.sortingOrder = parentRenderer.sortingOrder + 1;
 
         var spriteTransform = parent.transform;
-        var text = GetComponent<TextMesh>();
+        var text = GetComponent<TextMeshPro>();
         var pos = spriteTransform.position;
 
         if (box.health < 100)

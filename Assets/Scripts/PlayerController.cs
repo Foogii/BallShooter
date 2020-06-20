@@ -13,13 +13,12 @@ public class PlayerController : MonoBehaviour
     public GameObject ballPrefab;
 
     public GameObject shopMenu;
+    public GameObject settingsMenu;
 
     BallBehaviour ballScript;
 
     GameObject gmObj;
     GameManager gm;
-
-    LineRenderer lineRenderer;
 
     void Start()
     {
@@ -28,15 +27,11 @@ public class PlayerController : MonoBehaviour
 
         gmObj = GameObject.Find("GameManager");
         gm = (GameManager) gmObj.GetComponent<GameManager>();
-
-        lineRenderer = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-
         if (GameManager.roundEnd == false && gm.isGameOver == false)
         {
             currNumBall = numberOfBalls;
@@ -46,16 +41,10 @@ public class PlayerController : MonoBehaviour
             if (mouse_Position.y > transform.position.y + 0.25)
                 transform.up = direction;
 
-                lineRenderer.SetPosition(0, mouse_Position);
-                lineRenderer.SetPosition(1, mouse_Position);
-
-            if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy)
+            if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy && !settingsMenu.activeInHierarchy)
             {
                 Time.timeScale = 1;
                 GameManager.roundEnd = true;
-
-                lineRenderer.SetPosition(0, new Vector2(-20, -20));
-                lineRenderer.SetPosition(1, new Vector2(-20, -20));
 
                 StartCoroutine(burstFire());
 

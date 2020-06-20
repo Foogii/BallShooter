@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int clearUses;
 
     public int coinsNum;
-    public int eCoinsNum = 0;
+    public int eCoinsNum = 5000;
 
     public int score;
     public int highscore;
@@ -42,13 +42,11 @@ public class GameManager : MonoBehaviour
     float timeUntilSpeedup = 7f;
     float timeUntilDownwardForce = 12f;
 
-    bool firstRound = true;
-
     private void Awake()
     {
         if (!PlayerPrefs.HasKey("Round"))
         {
-            currentRound.round = 1;
+            currentRound.round = 0;
             PlayerPrefs.SetInt("Round", currentRound.round);
         }
     }
@@ -57,7 +55,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         roundEnd = false;
-        eCoinsNum = PlayerPrefs.GetInt("eCoins");
+        //eCoinsNum = PlayerPrefs.GetInt("eCoins");
         highscore = PlayerPrefs.GetInt("HighScore");
         if (PlayerPrefs.GetInt("Round") > 1)
         {
@@ -99,7 +97,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            firstRound = true;
             clearUses = 3;
             PlayerPrefs.SetInt("Clears", clearUses);
             roundEnd = true;
@@ -135,12 +132,8 @@ public class GameManager : MonoBehaviour
 
                 if (BoxObject.spawnersChecked == 7)
                 {
-                    if(!firstRound)
-                        currentRound.round++;
-                    PlayerPrefs.SetInt("Round", currentRound.round);
                     roundEnd = false;
                     BoxObject.spawnersChecked = 0;
-                    firstRound = false;
                 }
             }
         }
@@ -278,6 +271,9 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("numOfBoxes", boxes.Length);
             PlayerPrefs.SetInt("numOfBallIncrease", ballIncrease.Length);
             PlayerPrefs.SetInt("NumOfBalls", PlayerController.numberOfBalls);
+
+            currentRound.round++;
+            PlayerPrefs.SetInt("Round", currentRound.round);
         }
     }
 
