@@ -11,12 +11,6 @@ public class SkinManager : MonoBehaviour
     public SpriteRenderer ball;
     public SpriteRenderer ballIncrease;
 
-    Resources Backgrounds;
-    Resources Blocks;
-    Resources Balls;
-    Resources Characters;
-    Resources BallIncrease;
-
     private void Awake()
     {
         backgroundObj = GameObject.Find("Background");
@@ -61,8 +55,11 @@ public class SkinManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         background.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Background"));
+        character.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Character"));
+        block.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Block"));
+        ball.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Ball"));
+        ballIncrease.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Ball"));
     }
 
     // Update is called once per frame

@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.foogs.ballshooter
+    Android: com.foogi.ballshooter
     Standalone: com.foogs.ballshooter
   buildNumber: {}
   AndroidBundleVersionCode: 1

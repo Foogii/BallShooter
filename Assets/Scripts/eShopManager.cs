@@ -28,7 +28,6 @@ public class eShopManager : MonoBehaviour
     public void unlockSkin()
     {
         goldCoins = PlayerPrefs.GetInt("eCoins");
-        Debug.Log(goldCoins);
         if (goldCoins >= 25)
         {
             lockedButton.gameObject.SetActive(false);
