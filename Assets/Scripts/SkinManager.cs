@@ -5,8 +5,9 @@ using UnityEngine;
 public class SkinManager : MonoBehaviour
 {
     GameObject backgroundObj;
+    GameObject characterObj;
     SpriteRenderer background;
-    public SpriteRenderer character;
+    SpriteRenderer character;
     public SpriteRenderer block;
     public SpriteRenderer ball;
     public SpriteRenderer ballIncrease;
@@ -15,6 +16,9 @@ public class SkinManager : MonoBehaviour
     {
         backgroundObj = GameObject.Find("Background");
         background = backgroundObj.GetComponent<SpriteRenderer>();
+
+        characterObj = GameObject.Find("PlayerSprite");
+        character = characterObj.GetComponent<SpriteRenderer>();
 
         GameObject[] skinManager = GameObject.FindGameObjectsWithTag("skins");
         if (skinManager.Length > 1)
@@ -67,6 +71,9 @@ public class SkinManager : MonoBehaviour
     {
         backgroundObj = GameObject.Find("Background");
         background = backgroundObj.GetComponent<SpriteRenderer>();
+
+        characterObj = GameObject.Find("PlayerSprite");
+        character = characterObj.GetComponent<SpriteRenderer>();
 
         background.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Background"));
         character.sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Character"));

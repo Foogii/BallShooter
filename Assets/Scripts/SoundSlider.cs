@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SoundSlider : MonoBehaviour
+public class SoundSlider : SoundManager
 {
-    public AudioMixer mixer;
-
-    public Slider SFXSlider;
-    public Slider MusicSlider;
-
-    private void Start()
+    private void Update()
     {
-        SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume");
-        MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        if (this.gameObject.name == "SFXSlider")
+        {
+            SFXSlider = this.gameObject.GetComponent<Slider>();
+            SFXSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        }
+
+        if (this.gameObject.name == "MusicSlider")
+        {
+            MusicSlider = this.gameObject.GetComponent<Slider>();
+            MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        }
     }
 
     public void SetVolume(float slider)

@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject shopMenu;
     public GameObject settingsMenu;
+    public GameObject adsMenu;
+    public GameObject deadMenu;
 
     BallBehaviour ballScript;
 
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
             if (mouse_Position.y > transform.position.y + 0.25)
                 transform.up = direction;
 
-            if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy && !settingsMenu.activeInHierarchy)
+            if (Input.GetMouseButtonUp(0) && mouse_Position.y > transform.position.y && !shopMenu.activeInHierarchy && !settingsMenu.activeInHierarchy && !adsMenu.activeInHierarchy && !deadMenu.activeInHierarchy)
             {
                 Time.timeScale = 1;
                 GameManager.roundEnd = true;

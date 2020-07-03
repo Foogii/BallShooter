@@ -19,6 +19,7 @@ TagManager:
   - BouncyBlocks
   - sound
   - skins
+  - ads
   layers:
   - Default
   - TransparentFX
@@ -34,7 +35,7 @@ TagManager:
   - ballIncrease
   - coin
   - eCoin
-  - 
+  - Post-Processing
   - 
   - 
   - 

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public int clearUses;
 
     public int coinsNum;
-    public int eCoinsNum = 5000;
+    public int eCoinsNum = 0;
 
     public int score;
     public int highscore;
@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     float timeUntilSpeedup = 7f;
     float timeUntilDownwardForce = 12f;
 
+    public bool gameContinued = true;
+
     private void Awake()
     {
         if (!PlayerPrefs.HasKey("Round"))
@@ -54,8 +56,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameContinued = true;
         roundEnd = false;
-        //eCoinsNum = PlayerPrefs.GetInt("eCoins");
+        eCoinsNum = PlayerPrefs.GetInt("eCoins");
         highscore = PlayerPrefs.GetInt("HighScore");
         if (PlayerPrefs.GetInt("Round") > 1)
         {
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour
             if (balls.Length == 0 && PlayerController.currNumBall <= 1)
             {
                 timeUntilSpeedup = 7f;
-                timeUntilDownwardForce = 12f;
+                timeUntilDownwardForce = 6f;
                 roundDone();
 
                 if (BoxObject.spawnersChecked == 7)
@@ -142,7 +145,7 @@ public class GameManager : MonoBehaviour
         {
             if (timeUntilSpeedup <= 0)
             {
-                Time.timeScale = 2;
+                Time.timeScale += 1;
                 timeUntilSpeedup = 7f;
             }
             else
@@ -150,14 +153,14 @@ public class GameManager : MonoBehaviour
                 timeUntilSpeedup -= Time.deltaTime;
             }
 
-            if(timeUntilDownwardForce <=0)
+            if(timeUntilDownwardForce <= 0)
             {
                 for(int i = 0; i < balls.Length; i++)
                 {
                     balls[i].transform.rotation = new Quaternion(balls[i].transform.rotation.x, balls[i].transform.rotation.y, balls[i].transform.rotation.z + 1, transform.rotation.w);
                     balls[i].GetComponent<Rigidbody2D>().AddForce(Vector2.down * 50);
                 }
-                timeUntilDownwardForce = 12f;
+                timeUntilDownwardForce = 6f;
             }
             else
             {
@@ -168,11 +171,11 @@ public class GameManager : MonoBehaviour
 
     void gameOver()
     {
-        if (isGameOver == false)
-        {
-            isGameOver = true;
-            gameOverPanel.SetActive(true);
+        gameOverPanel.SetActive(true);
+        gameContinued = false;
 
+        if (isGameOver == true)
+        {
             PlayerPrefs.DeleteKey("NumOfBalls");
 
             for (int i = 0; i > numOfBoxes; i++)
@@ -193,8 +196,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.DeleteKey("BallDamage");
             PlayerPrefs.DeleteKey("ScoreMultiplier");
             PlayerPrefs.DeleteKey("bouncyIsPurchased");
-
-
         }
     }
 
@@ -280,14 +281,18 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("Main Game");
-        PlayerPrefs.DeleteKey("Round");
+        isGameOver = true;
+        gameOver();
     }
 
     public void MainMenu()
     {
         SceneManager.LoadScene("Main Menu");
-        if(isGameOver)
-            PlayerPrefs.DeleteKey("Round");
+        if (!gameContinued)
+        {
+            isGameOver = true;
+            gameOver();
+        }
     }
 
     public void destroyBottomWave() //The Danger Zone

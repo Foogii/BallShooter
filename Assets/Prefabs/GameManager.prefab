@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1099079059717437664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1099079059717437665}
+  - component: {fileID: 1099079059717437666}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1099079059717437665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099079059717437664}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.1, y: 0.42186263, z: -0.01953125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1099079059717437666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099079059717437664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbde26cdd0bf734d917bce5c9a70f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGameOver: 0
+  numOfBoxes: 0
+  numOfBallIncrease: 0
+  numOfCoins: 0
+  numOfECoins: 0
+  clearUses: 0
+  coinsNum: 0
+  eCoinsNum: 5000
+  score: 0
+  highscore: 0
+  boxPrefab: {fileID: 3060610965244299069, guid: d53790eee60224741a27506317dac90b,
+    type: 3}
+  ballIncreasePrefab: {fileID: 9193044867431382157, guid: 0eca5c8d813692a4bacee7245ef8989a,
+    type: 3}
+  coinPrefab: {fileID: 6475453666948019331, guid: b0176b83c7157e94191a86930fef7d24,
+    type: 3}
+  ECoinPrefab: {fileID: 7918875060047304944, guid: c2cf94ade1bc43d4081b84fb39e49987,
+    type: 3}
+  corner1: {fileID: 0}
+  corner2: {fileID: 0}
+  corner3: {fileID: 0}
+  whatIsBox:
+    serializedVersion: 2
+    m_Bits: 256
+  whatIsBallIncrease:
+    serializedVersion: 2
+    m_Bits: 2048
+  whatIsBall:
+    serializedVersion: 2
+    m_Bits: 512
+  whatIsSpawner:
+    serializedVersion: 2
+    m_Bits: 1024
+  whatIsCoin:
+    serializedVersion: 2
+    m_Bits: 4096
+  whatIsECoin:
+    serializedVersion: 2
+    m_Bits: 8192
+  gameOverPanel: {fileID: 0}
+  DangerZone: {fileID: 0}
