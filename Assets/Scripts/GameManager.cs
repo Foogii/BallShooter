@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject gameOverPanel;
     public GameObject DangerZone;
+    public GameObject continueButton;
+    public bool hasContinued;
 
     float timeUntilSpeedup = 7f;
     float timeUntilDownwardForce = 12f;
@@ -72,6 +74,15 @@ public class GameManager : MonoBehaviour
             numOfECoins = PlayerPrefs.GetInt("numOfECoins");
             clearUses = PlayerPrefs.GetInt("Clears");
 
+            if(PlayerPrefs.GetString("hasContinued") == "true")
+            {
+                hasContinued = true;
+            }
+            else
+            {
+                hasContinued = false;
+            }
+
             for (int i = 0; i < numOfBoxes; i++) //Sets the position for each box that was saved
             {
                 Vector2 boxPosition = new Vector2(PlayerPrefs.GetFloat("boxX" + i.ToString()), PlayerPrefs.GetFloat("boxY" + i.ToString()));
@@ -100,6 +111,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            gameContinued = false;
+            hasContinued = false;
             clearUses = 3;
             PlayerPrefs.SetInt("Clears", clearUses);
             roundEnd = true;
@@ -171,6 +184,11 @@ public class GameManager : MonoBehaviour
 
     void gameOver()
     {
+        if (hasContinued)
+        {
+            continueButton.SetActive(false);
+        }
+
         gameOverPanel.SetActive(true);
         gameContinued = false;
 
@@ -267,6 +285,15 @@ public class GameManager : MonoBehaviour
                     Destroy(eCoins[i].gameObject);
                 }
 
+            if(hasContinued)
+            {
+                PlayerPrefs.SetString("hasContinued", "true");
+            }
+            else
+            {
+                PlayerPrefs.SetString("hasContinued", "false");
+            }
+
             PlayerPrefs.SetInt("numOfCoins", coins.Length);
             PlayerPrefs.SetInt("numOfECoins", eCoins.Length);
             PlayerPrefs.SetInt("numOfBoxes", boxes.Length);
@@ -285,14 +312,22 @@ public class GameManager : MonoBehaviour
         gameOver();
     }
 
+    public void MainMenuFromDeath()
+    {
+        SceneManager.LoadScene("Main Menu");
+        isGameOver = true;
+        gameOver();
+    }
+
     public void MainMenu()
     {
         SceneManager.LoadScene("Main Menu");
-        if (!gameContinued)
-        {
-            isGameOver = true;
-            gameOver();
-        }
+    }
+
+    public void continueButtonPressed()
+    {
+        hasContinued = true;
+        PlayerPrefs.SetString("hasContinued", "true");
     }
 
     public void destroyBottomWave() //The Danger Zone
