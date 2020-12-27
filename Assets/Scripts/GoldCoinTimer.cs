@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GoldCoinTimer : MonoBehaviour
 {
+    [SerializeField]
+    GameObject shopGO;
     public static float goldCoinTimer;
     Button button;
     Image Shop;
@@ -24,8 +26,11 @@ public class GoldCoinTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        button = GetComponent<Button>();
-        button = GameObject.Find("EarnMoreGoldCoins").GetComponent<Button>();
+        if(shopGO.activeInHierarchy == true)
+        {
+            button = GetComponent<Button>();
+            button = GameObject.Find("EarnMoreGoldCoins").GetComponent<Button>();
+        }
 
         if (!PlayerPrefs.HasKey("coinTimer"))
         {
@@ -44,9 +49,12 @@ public class GoldCoinTimer : MonoBehaviour
 
         if (scene.name == "Main Menu")
         {
-            if (button == null)
+            if (shopGO.activeInHierarchy == true)
             {
-                button = GameObject.Find("EarnMoreGoldCoins").GetComponent<Button>();
+                if (button == null)
+                {
+                    button = GameObject.Find("EarnMoreGoldCoins").GetComponent<Button>();
+                }
             }
         }
 
@@ -55,18 +63,23 @@ public class GoldCoinTimer : MonoBehaviour
             goldCoinTimer -= Time.unscaledDeltaTime;
             PlayerPrefs.SetFloat("coinTimer", goldCoinTimer);
 
-            
             if (scene.name == "Main Menu")
             {
-                button.interactable = false;
+                if (shopGO.activeInHierarchy == false)
+                {
+                    button.interactable = false;
+                }
             }
         }
         else
-        {
+        {           
             if (scene.name == "Main Menu")
             {
-                button.interactable = true;
-            }
+                if (shopGO.activeInHierarchy == true)
+                {
+                    button.interactable = true;
+                }
+            }            
         }
     }
 }

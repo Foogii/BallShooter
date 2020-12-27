@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class ObjectSizeManager : MonoBehaviour
 {
-
+    [SerializeField]
+    GameObject[] spawners;
 
     // Start is called before the first frame update
     void Start()
     {
-        float height = Camera.main.orthographicSize * 2;
-        float width = height * Screen.width / Screen.height;
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            Vector2 spawnPos = new Vector2(((1f / spawners.Length) + (1f / spawners.Length) * i) - (1f / spawners.Length) / 2f, 0.96f);
+
+            spawners[i].transform.position = Camera.main.ViewportToWorldPoint(spawnPos);
+        }
 
 
     }

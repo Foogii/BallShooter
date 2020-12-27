@@ -15771,6 +15771,11 @@ PrefabInstance:
       propertyPath: button
       value: 
       objectReference: {fileID: 320373314}
+    - target: {fileID: 1872484188793997812, guid: 6669afb443defcb40b535ed507cb9ce3,
+        type: 3}
+      propertyPath: shopGO
+      value: 
+      objectReference: {fileID: 201746006}
     - target: {fileID: 1872484188793997813, guid: 6669afb443defcb40b535ed507cb9ce3,
         type: 3}
       propertyPath: m_Name

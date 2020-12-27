@@ -14,17 +14,19 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        float getAspect;
+        //float getAspect;
 
-        getAspect = (float)Screen.width / (float)Screen.height;
-        if (getAspect == (9 / 16))
-        {
-            gameObject.transform.localScale = new Vector2(4.6f, 4.6f);
-        }
-        else if (getAspect == (9 / 19))
-        {
-            gameObject.transform.localScale = new Vector2(3.8f, 3.8f);
-        }
+        //getAspect = (float)Screen.width / (float)Screen.height;
+        //if (getAspect == (9 / 16))
+        //{
+        //    gameObject.transform.localScale = new Vector2(4.6f, 4.6f);
+        //}
+        //else if (getAspect == (9 / 19))
+        //{
+        //    gameObject.transform.localScale = new Vector2(3.8f, 3.8f);
+        //}
+
+
     }
 
     void Start()
