@@ -43,9 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44334dc0d6f14814e9ffaa324a83b6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 0}
+  gm: {fileID: 1099079059717437666, guid: 54e0cae2c3b587d4781e420b9f999693, type: 3}
   myPlacementId: rewardedVideo
-  whatButton: 
   whatIsBox:
     serializedVersion: 2
     m_Bits: 256

@@ -209,7 +209,7 @@ public class ShopManager : MonoBehaviour
     {
         if(!bouncyIsPurchased && gm.coinsNum >= 15)
         {
-            gm.coinsNum -= 25;
+            gm.coinsNum -= 15;
             bouncyIsPurchased = true;
             PlayerPrefs.SetString("bouncyIsPurchased", "True");
         }

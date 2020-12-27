@@ -145,12 +145,8 @@ public class GameManager : MonoBehaviour
                 timeUntilSpeedup = 7f;
                 timeUntilDownwardForce = 6f;
                 roundDone();
-
-                if (BoxObject.spawnersChecked == 7)
-                {
-                    roundEnd = false;
-                    BoxObject.spawnersChecked = 0;
-                }
+                roundEnd = false;
+                BoxObject.spawnersChecked = 0;
             }
         }
 

@@ -9,6 +9,7 @@ public class eShopManager : MonoBehaviour
 
     public GameObject menuShop;
     public GameObject[] Locks;
+    public GameObject[] selectedBorder;
 
     public Image shopImage;
     Button lockedButton;
@@ -22,7 +23,13 @@ public class eShopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(menuShop)
+        {
+            selectedBorder[0].transform.position = new Vector2(PlayerPrefs.GetFloat("CharBorderX"), PlayerPrefs.GetFloat("CharBorderY")); //This will get the saved border position, and set it where it needs to be
+            selectedBorder[1].transform.position = new Vector2(PlayerPrefs.GetFloat("BallBorderX"), PlayerPrefs.GetFloat("BallBorderY"));
+            selectedBorder[2].transform.position = new Vector2(PlayerPrefs.GetFloat("BlockBorderX"), PlayerPrefs.GetFloat("BlockBorderY"));
+            selectedBorder[3].transform.position = new Vector2(PlayerPrefs.GetFloat("BackBorderX"), PlayerPrefs.GetFloat("BackBorderY"));
+        }
     }
 
     public void unlockSkin()
@@ -69,6 +76,10 @@ public class eShopManager : MonoBehaviour
         background = button.image.sprite.name;
         PlayerPrefs.SetString("Background", background);
         Debug.Log(PlayerPrefs.GetString("Background"));
+
+        selectedBorder[3].transform.position = button.gameObject.transform.position;
+        PlayerPrefs.SetFloat("BackBorderX", selectedBorder[3].transform.position.x);
+        PlayerPrefs.SetFloat("BackBorderY", selectedBorder[3].transform.position.y);
     }
 
     public void setBlock(Button button)
@@ -77,6 +88,10 @@ public class eShopManager : MonoBehaviour
         block = button.image.sprite.name;
         PlayerPrefs.SetString("Block", block);
         Debug.Log(PlayerPrefs.GetString("Block"));
+
+        selectedBorder[2].transform.position = button.gameObject.transform.position;
+        PlayerPrefs.SetFloat("BlockBorderX", selectedBorder[2].transform.position.x);
+        PlayerPrefs.SetFloat("BlockBorderY", selectedBorder[2].transform.position.y);
     }
 
     public void setBall(Button button)
@@ -85,6 +100,10 @@ public class eShopManager : MonoBehaviour
         ball = button.image.sprite.name;
         PlayerPrefs.SetString("Ball", ball);
         Debug.Log(PlayerPrefs.GetString("Ball"));
+
+        selectedBorder[1].transform.position = button.gameObject.transform.position;
+        PlayerPrefs.SetFloat("BallBorderX", selectedBorder[1].transform.position.x);
+        PlayerPrefs.SetFloat("BallBorderY", selectedBorder[1].transform.position.y);
     }
 
     public void setCharacter(Button button)
@@ -93,6 +112,10 @@ public class eShopManager : MonoBehaviour
         character = button.image.sprite.name;
         PlayerPrefs.SetString("Character", character);
         Debug.Log(PlayerPrefs.GetString("Character"));
+
+        selectedBorder[0].transform.position = button.gameObject.transform.position;
+        PlayerPrefs.SetFloat("CharBorderX", selectedBorder[0].transform.position.x);
+        PlayerPrefs.SetFloat("CharBorderY", selectedBorder[0].transform.position.y);
     }
 
     public void OpenMenuShop()

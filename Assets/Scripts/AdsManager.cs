@@ -9,11 +9,13 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     public GameManager gm;
 
     string GooglePlayID = "3669343";
-    bool testMode = true;
+    bool testMode = false;
 
     public string myPlacementId = "rewardedVideo";
-    public string whatButton;
+    public static string whatButton;
     public LayerMask whatIsBox;
+
+    
 
     void Awake()
     {
@@ -37,6 +39,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
     {
         Advertisement.Show(myPlacementId);
         whatButton = button.name;
+        Debug.Log(whatButton + " was pressed");
     }
 
     // Implement IUnityAdsListener interface methods:
@@ -45,18 +48,23 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
         // Define conditional logic for each ad completion status:
         if (showResult == ShowResult.Finished)
         {
+            Debug.Log(whatButton);
+
             if (whatButton == "EarnMoreBalls")
             {
                 PlayerController.numberOfBalls += 3;
                 PlayerPrefs.SetInt("NumOfBalls", PlayerController.numberOfBalls);
-                Debug.Log("You got a reward!");
+                Debug.Log("You Earned more balls");
                 Debug.Log(PlayerController.numberOfBalls);
+                GetMoreBallsTimer.adTimer = 300f;
             }
             else if (whatButton == "EarnMoreGoldCoins")
             {
-                gm.eCoinsNum += Random.Range(2, 4);
-                PlayerPrefs.SetInt("eCoins", gm.eCoinsNum);
-                Debug.Log("You got a reward!");
+                int goldCoins = PlayerPrefs.GetInt("eCoins");
+                goldCoins += Random.Range(2, 4);
+                PlayerPrefs.SetInt("eCoins", goldCoins);
+                Debug.Log("You earned more gold coins!");
+                GoldCoinTimer.goldCoinTimer = 300f;
             }
             else if (whatButton == "ContinuePlaying")
             {
@@ -75,7 +83,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
                 }
 
                 gm.gameContinued = true;
-                Debug.Log("You got a reward!");
+                Debug.Log("You have continued playing!");
             }
             // Reward the user for watching the ad to completion.
         }
